@@ -11,7 +11,7 @@ import {
 
 function App({ signOut }) {
   return (
-    <View className="App">
+    <View className="App2">
       <Card>
         <Image src={logo} className="App-logo" alt="logo" />
         <Heading level={1}>We now have Auth!</Heading>
