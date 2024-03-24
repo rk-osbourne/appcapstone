@@ -20,6 +20,7 @@ export const createTransactions = /* GraphQL */ `
     }
   }
 `;
+
 export const updateTransactions = /* GraphQL */ `
   mutation UpdateTransactions(
     $input: UpdateTransactionsInput!
@@ -39,6 +40,7 @@ export const updateTransactions = /* GraphQL */ `
     }
   }
 `;
+
 export const deleteTransactions = /* GraphQL */ `
   mutation DeleteTransactions(
     $input: DeleteTransactionsInput!
@@ -55,6 +57,30 @@ export const deleteTransactions = /* GraphQL */ `
       createdAt
       updatedAt
       __typename
+    }
+  }
+`;
+
+export const listTransactionss = /* GraphQL */ `
+  query ListTransactionss(
+    $filter: ModelTransactionsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTransactionss(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        category
+        amount
+        transactionDate
+        type
+        description
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
     }
   }
 `;

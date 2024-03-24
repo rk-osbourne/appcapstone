@@ -58,6 +58,18 @@ function App() {
     }
   };
 
+  const updateTransaction = async (id, newData) => {
+    try {
+      await client.graphql({
+        query: updateTransactions,
+        variables: { input: { id, ...newData } }
+      });
+      fetchTransactions(); // Refresh transactions after updating one
+    } catch (error) {
+      console.error('Error updating transaction:', error);
+    }
+  };
+
   const deleteTransaction = async (id) => {
     try {
       await client.graphql({
@@ -100,7 +112,38 @@ function App() {
             variation="quiet"
             required
           />
-          {/* Add more fields for category, amount, transactionDate, type */}
+          <TextField
+            name="category"
+            placeholder="Category"
+            label="Category"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
+            name="amount"
+            placeholder="Amount"
+            label="Amount"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
+            name="transactionDate"
+            placeholder="Transaction Date"
+            label="Transaction Date"
+            labelHidden
+            variation="quiet"
+            required
+          />
+          <TextField
+            name="type"
+            placeholder="Type"
+            label="Type"
+            labelHidden
+            variation="quiet"
+            required
+          />
           <Button type="submit" variation="primary">
             Create Transaction
           </Button>
@@ -119,7 +162,10 @@ function App() {
               {transaction.name}
             </Text>
             <Text as="span">{transaction.description}</Text>
-            {/* Display other transaction details */}
+            <Text as="span">{transaction.category}</Text>
+            <Text as="span">{transaction.amount}</Text>
+            <Text as="span">{transaction.transactionDate}</Text>
+            <Text as="span">{transaction.type}</Text>
             <Button variation="link" onClick={() => deleteTransaction(transaction.id)}>
               Delete Transaction
             </Button>
@@ -127,7 +173,7 @@ function App() {
         ))}
       </View>
       <Button onClick={signOut}>Sign Out</Button>
-    </View>
+      </View>
   );
 }
 
