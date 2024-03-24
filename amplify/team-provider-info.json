@@ -15,6 +15,12 @@
       "auth": {
         "appcapstonedc139078": {},
         "appcapstone92becfcc": {}
+      },
+      "api": {
+        "appcapstone": {}
+      },
+      "storage": {
+        "imagestorage": {}
       }
     }
   }

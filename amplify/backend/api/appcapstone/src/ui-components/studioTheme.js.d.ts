@@ -4,6 +4,5 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as TransactionsCreateForm } from "./TransactionsCreateForm";
-export { default as TransactionsUpdateForm } from "./TransactionsUpdateForm";
-export { default as studioTheme } from "./studioTheme";
+declare const _default: any;
+export default _default;

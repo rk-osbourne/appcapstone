@@ -4,6 +4,6 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as TransactionsCreateForm } from "./TransactionsCreateForm";
-export { default as TransactionsUpdateForm } from "./TransactionsUpdateForm";
-export { default as studioTheme } from "./studioTheme";
+/* eslint-disable */
+import { createTheme, defaultTheme } from "@aws-amplify/ui-react";
+export default createTheme(defaultTheme);

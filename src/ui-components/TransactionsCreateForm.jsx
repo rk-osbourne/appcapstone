@@ -9,9 +9,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createNote } from "../graphql/mutations";
+import { createTransactions } from "../graphql/mutations";
 const client = generateClient();
-export default function NoteCreateForm(props) {
+export default function TransactionsCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -24,25 +24,39 @@ export default function NoteCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
+    category: "",
+    amount: "",
+    transactionDate: "",
+    type: "",
     description: "",
-    image: "",
   };
   const [name, setName] = React.useState(initialValues.name);
+  const [category, setCategory] = React.useState(initialValues.category);
+  const [amount, setAmount] = React.useState(initialValues.amount);
+  const [transactionDate, setTransactionDate] = React.useState(
+    initialValues.transactionDate
+  );
+  const [type, setType] = React.useState(initialValues.type);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [image, setImage] = React.useState(initialValues.image);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
+    setCategory(initialValues.category);
+    setAmount(initialValues.amount);
+    setTransactionDate(initialValues.transactionDate);
+    setType(initialValues.type);
     setDescription(initialValues.description);
-    setImage(initialValues.image);
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
+    name: [],
+    category: [{ type: "Required" }],
+    amount: [{ type: "Required" }],
+    transactionDate: [{ type: "Required" }],
+    type: [{ type: "Required" }],
     description: [],
-    image: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -71,8 +85,11 @@ export default function NoteCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
+          category,
+          amount,
+          transactionDate,
+          type,
           description,
-          image,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -103,7 +120,7 @@ export default function NoteCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createNote.replaceAll("__typename", ""),
+            query: createTransactions.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -123,12 +140,12 @@ export default function NoteCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "NoteCreateForm")}
+      {...getOverrideProps(overrides, "TransactionsCreateForm")}
       {...rest}
     >
       <TextField
         label="Name"
-        isRequired={true}
+        isRequired={false}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -136,8 +153,11 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
+              category,
+              amount,
+              transactionDate,
+              type,
               description,
-              image,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -153,6 +173,122 @@ export default function NoteCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
+        label="Category"
+        isRequired={true}
+        isReadOnly={false}
+        value={category}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              category: value,
+              amount,
+              transactionDate,
+              type,
+              description,
+            };
+            const result = onChange(modelFields);
+            value = result?.category ?? value;
+          }
+          if (errors.category?.hasError) {
+            runValidationTasks("category", value);
+          }
+          setCategory(value);
+        }}
+        onBlur={() => runValidationTasks("category", category)}
+        errorMessage={errors.category?.errorMessage}
+        hasError={errors.category?.hasError}
+        {...getOverrideProps(overrides, "category")}
+      ></TextField>
+      <TextField
+        label="Amount"
+        isRequired={true}
+        isReadOnly={false}
+        value={amount}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              category,
+              amount: value,
+              transactionDate,
+              type,
+              description,
+            };
+            const result = onChange(modelFields);
+            value = result?.amount ?? value;
+          }
+          if (errors.amount?.hasError) {
+            runValidationTasks("amount", value);
+          }
+          setAmount(value);
+        }}
+        onBlur={() => runValidationTasks("amount", amount)}
+        errorMessage={errors.amount?.errorMessage}
+        hasError={errors.amount?.hasError}
+        {...getOverrideProps(overrides, "amount")}
+      ></TextField>
+      <TextField
+        label="Transaction date"
+        isRequired={true}
+        isReadOnly={false}
+        value={transactionDate}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              category,
+              amount,
+              transactionDate: value,
+              type,
+              description,
+            };
+            const result = onChange(modelFields);
+            value = result?.transactionDate ?? value;
+          }
+          if (errors.transactionDate?.hasError) {
+            runValidationTasks("transactionDate", value);
+          }
+          setTransactionDate(value);
+        }}
+        onBlur={() => runValidationTasks("transactionDate", transactionDate)}
+        errorMessage={errors.transactionDate?.errorMessage}
+        hasError={errors.transactionDate?.hasError}
+        {...getOverrideProps(overrides, "transactionDate")}
+      ></TextField>
+      <TextField
+        label="Type"
+        isRequired={true}
+        isReadOnly={false}
+        value={type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              category,
+              amount,
+              transactionDate,
+              type: value,
+              description,
+            };
+            const result = onChange(modelFields);
+            value = result?.type ?? value;
+          }
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
+          }
+          setType(value);
+        }}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      ></TextField>
+      <TextField
         label="Description"
         isRequired={false}
         isReadOnly={false}
@@ -162,8 +298,11 @@ export default function NoteCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
+              category,
+              amount,
+              transactionDate,
+              type,
               description: value,
-              image,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -177,32 +316,6 @@ export default function NoteCreateForm(props) {
         errorMessage={errors.description?.errorMessage}
         hasError={errors.description?.hasError}
         {...getOverrideProps(overrides, "description")}
-      ></TextField>
-      <TextField
-        label="Image"
-        isRequired={false}
-        isReadOnly={false}
-        value={image}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              description,
-              image: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.image ?? value;
-          }
-          if (errors.image?.hasError) {
-            runValidationTasks("image", value);
-          }
-          setImage(value);
-        }}
-        onBlur={() => runValidationTasks("image", image)}
-        errorMessage={errors.image?.errorMessage}
-        hasError={errors.image?.hasError}
-        {...getOverrideProps(overrides, "image")}
       ></TextField>
       <Flex
         justifyContent="space-between"
