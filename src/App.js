@@ -13,7 +13,7 @@ import {
 } from "@aws-amplify/ui-react";
 import { generateClient } from 'aws-amplify/api';
 import { createTransactions, updateTransactions, deleteTransactions, listTransactionss, getTransactions } from './graphql/mutations'; // Import transaction operations
-import { Auth } from 'aws-amplify'; // Import Auth module
+import { signIn } from 'aws-amplify/auth'; // Import signIn from aws-amplify/auth
 
 const client = generateClient();
 
@@ -84,14 +84,12 @@ function App() {
 
   const signOut = async () => {
     try {
-      await Auth.signOut();
+      await signIn.signOut();
       console.log('User signed out successfully');
     } catch (error) {
       console.error('Error signing out:', error);
     }
-  };
-
-  return (
+  }; return (
     <View className="App">
       <Heading level={1}>Personal Finance App</Heading>
       <View as="form" margin="3rem 0" onSubmit={createTransaction}>
