@@ -6,5 +6,4 @@ type Transactions @model @auth(rules: [{allow: public}]) {
   transactionDate: String!
   type: String!
   description: String
-}
- 
+} 
