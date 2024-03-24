@@ -40,8 +40,8 @@ function App() {
     const name = formData.get("name");
     const description = formData.get("description");
     const category = formData.get("category");
-    const amount = formData.get("amount");
-    const transactionDate = formData.get("transactionDate");
+    const amount = parseFloat(formData.get("amount")); // Convert amount to a number
+    const transactionDate = new Date(formData.get("transactionDate")); // Convert transactionDate to a Date
     const type = formData.get("type");
 
     try {
@@ -93,7 +93,7 @@ function App() {
     <View className="App">
       <Heading level={1}>Personal Finance App</Heading>
       <View as="form" margin="3rem 0" onSubmit={createTransaction}>
-        <Flex direction="row" justifyContent="center">
+        <Flex direction="column" justifyContent="center">
           <TextField
             name="name"
             placeholder="Transaction Name"
@@ -152,7 +152,7 @@ function App() {
         {transactions.map((transaction) => (
           <Flex
             key={transaction.id}
-            direction="row"
+            direction="column"
             justifyContent="center"
             alignItems="center"
           >
